@@ -1,7 +1,8 @@
 const Header = () => {
   return(
-    <div className="header-container bg-blue-800">
-      <h2 className="ml-2 text-2xl font-bold">Habits</h2>
+    <header className="w-full max-w-xl justify-self-center">
+    <nav className="w-full py-2 flex justify-between bg-blue-700 justify-self-center">
+      <h2 className="ml-2 text-2xl font-bold">Sep 2021</h2>
 
       <div className="flex items-center">
 
@@ -30,7 +31,8 @@ const Header = () => {
       </div>
 
       </div>
-    </div>
+    </nav>
+    </header>
   );
 }
 

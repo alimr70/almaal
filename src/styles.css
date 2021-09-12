@@ -2,7 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
+html,
+body,
+#root {
   height: 100%;
 }
 
@@ -10,6 +12,12 @@ body {
   @apply bg-gray-900 text-gray-300;
 }
 
-.header-container {
-  @apply w-full max-w-xl py-2 flex items-center justify-between;
+/* .header-container {
+  @apply w-full max-w-xl py-2;
+} */
+
+.main-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: min-content auto min-content;
 }
