@@ -1,11 +1,15 @@
+import { Switch, Route } from "react-router-dom";
+
 const Main = () => {
   return (
     <main className="h-full w-full max-w-xl justify-self-center flex flex-col overflow-x-auto">
-      <Home />
-      {/* <Accounts /> */}
-      {/* <Transaction /> */}
-      {/* <Budget /> */}
-      {/* <Reports /> */}
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/accounts" component={Accounts} />
+        <Route path="/transaction" component={Transaction} />
+        <Route path="/budget" component={Budget} />
+        <Route path="/reports" component={Reports} />
+      </Switch>
     </main>
   );
 };
@@ -228,7 +232,7 @@ const Reports = () => {
     <>
       <div className="m-1 p-3 text-xl bg-gray-700 flex justify-between">
         Sorry This Section is still being built. It needs a lot of work and it
-        maybe available in the main app.
+        maybe available in the main app only.
       </div>
     </>
   );
