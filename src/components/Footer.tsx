@@ -2,7 +2,6 @@ const Footer = () => {
   return (
     <footer className="w-full max-w-xl justify-self-center">
       <nav className="w-full py-1 flex justify-evenly bg-blue-700 justify-self-center">
-
         <div className="flex flex-col items-center cursor-pointer">
           <span>
             <svg
@@ -75,10 +74,14 @@ const Footer = () => {
               className="h-7 w-7"
               viewBox="0 0 20 20"
               fill="currentColor">
-              <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+              <path
+                fillRule="evenodd"
+                d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z"
+                clipRule="evenodd"
+              />
             </svg>
           </span>
-          <p>More</p>
+          <p>Reports</p>
         </div>
       </nav>
     </footer>
