@@ -1,16 +1,11 @@
-import { Switch, Route } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 
 const Header = () => {
+  let { pathname } = useLocation();
   return (
     <header className="w-full max-w-xl justify-self-center">
       <nav className="w-full py-2 flex justify-between bg-blue-700 justify-self-center">
-        <Switch>
-          <Route exact path="/" component={HomeHeader} />
-          <Route path="/accounts" component={AccountsHeader} />
-          <Route path="/transaction" component={TransactionHeader} />
-          <Route path="/budget" component={BudgetHeader} />
-          <Route path="/reports" component={ReportsHeader} />
-        </Switch>
+        {headerRoutes[pathname]}
       </nav>
     </header>
   );
@@ -50,9 +45,27 @@ const AccountsHeader = () => {
 };
 
 const TransactionHeader = () => {
+  const {goBack} = useHistory();
   return (
     <>
+      <div className="flex items-center">
+      <div
+        className="cursor-pointer"
+        onClick={() => goBack()}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-7 w-7"
+          viewBox="0 0 20 20"
+          fill="currentColor">
+          <path
+            fillRule="evenodd"
+            d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </div>
       <h2 className="ml-2 text-2xl font-bold">Add Transaction</h2>
+      </div>
     </>
   );
 };
@@ -97,6 +110,17 @@ const ReportsHeader = () => {
       <h2 className="ml-2 text-2xl font-bold">Reports</h2>
     </>
   );
+};
+
+const headerRoutes: { [key: string]: JSX.Element } = {
+  "/": <HomeHeader />,
+  "/zakat": <HomeHeader />,
+  "/sadaqah": <HomeHeader />,
+  "/savings": <HomeHeader />,
+  "/accounts": <AccountsHeader />,
+  "/transaction": <TransactionHeader />,
+  "/budget": <BudgetHeader />,
+  "/reports": <ReportsHeader />,
 };
 
 export default Header;

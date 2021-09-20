@@ -8,4 +8,8 @@
 - ❌ Build Reports main structur
 - ✅ Setup React Router and assign eact button to relavant view
 - ✅ Modify Header Component to be relevant to each view
-- ❌ Split Main to smaller components
+- ✅ Split Main to smaller components
+- ✅ Split Home to smaller components
+- ✅ Split Accounts to smaller components
+- ❌ Split Budget to smaller components
+- ❌ Split Transaction to smaller components

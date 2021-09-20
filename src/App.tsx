@@ -1,15 +1,11 @@
 import { BrowserRouter as Router } from "react-router-dom";
-import Footer from "./components/Footer";
-import Header from "./components/Header";
-import Main from "./components/Main";
+import AppRoutes from "./routes";
 
 function App() {
   return (
     <div className="App h-full main-layout-grid">
       <Router>
-        <Header />
-        <Main/>
-        <Footer />
+        <AppRoutes />
       </Router>
     </div>
   );

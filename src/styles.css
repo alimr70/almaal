@@ -21,3 +21,11 @@ body {
   grid-template-columns: 1fr;
   grid-template-rows: min-content auto min-content;
 }
+
+.container-div {
+  @apply m-1 p-3 text-xl bg-gray-700 flex justify-between;
+}
+
+.budget-container-div {
+  @apply flex flex-col p-3 text-xl bg-gray-600 border-b-2 border-gray-700;
+}
