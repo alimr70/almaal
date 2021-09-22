@@ -3,7 +3,7 @@ const TitleAndDataRow: React.FC<{ title: string; data?: string }> = ({
   data,
 }) => {
   return (
-    <div className="container-div">
+    <div className="title-and-data-row">
       <TitleCell title={title} />
       {data? <DataCell data={data} /> : ""}
     </div>

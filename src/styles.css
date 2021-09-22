@@ -22,10 +22,14 @@ body {
   grid-template-rows: min-content auto min-content;
 }
 
-.container-div {
+.title-and-data-row {
   @apply m-1 p-3 text-xl bg-gray-700 flex justify-between;
 }
 
-.budget-container-div {
+.budget-group-header {
+  @apply p-3 text-xl bg-gray-700 flex justify-between;
+}
+
+.budget-category-row {
   @apply flex flex-col p-3 text-xl bg-gray-600 border-b-2 border-gray-700;
 }
