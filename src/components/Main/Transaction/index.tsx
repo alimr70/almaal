@@ -1,30 +1,89 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect } from "react";
 import { isMobile } from "react-device-detect";
 import {
   setInputValue,
   setShowNumPad,
-} from "../../../Contexts/TransactionContext/TransactionActions";
+  toggleIsPlus,
+  changeSelectedDate,
+  changeSelectedOption,
+} from "../../../Contexts/UI Contexts/TransactionUiContext/TransactionUiActions";
 import {
-  TransactionContext,
-  TransactionStore,
-} from "../../../Contexts/TransactionContext/TransactionContext";
+  TransactionUiContext,
+  TransactionUiStore,
+} from "../../../Contexts/UI Contexts/TransactionUiContext";
 import GreenBtn from "../../GreedBtn";
 import TitleAndDataRow from "../../TitleAndDataRow";
+import { BudgetDataStore } from "../../../Contexts/Data Contexts/BudgetDataContext";
+import { IAccountsDataState, IBudgetDataState, ITransaction } from "../../../Types";
+import { AccountsDataStore } from "../../../Contexts/Data Contexts/AccountsDataContext";
+import { TransactionDataStore } from "../../../Contexts/Data Contexts/TransactionDataContext";
+import { addTransaction } from "../../../Contexts/Data Contexts/TransactionDataContext/TransactionDataActions";
+import { useHistory } from "react-router";
 
 const Transaction = () => {
+  const {AccountsDataState} = useContext(AccountsDataStore);
+  const {BudgetDataState} = useContext(BudgetDataStore);
   return (
     <>
-      <TransactionContext>
+      <TransactionUiContext>
         <InsertAmount />
-        <TitleAndDataRow title="Transfer" data="Select Account" />
-        <TitleAndDataRow title="Category" data="Select Category" />
-        <TitleAndDataRow title="Account" data="Monthly payroll" />
-        <TitleAndDataRow title="Date" data="14 September 2021" />
-        <GreenBtn title="Save Transaction" />
-      </TransactionContext>
+        <TitleAndDataRow title="Category">
+          <SelectOptions state={BudgetDataState.categories} stateType="Category" />
+        </TitleAndDataRow>
+        <TitleAndDataRow title="Account">
+          <SelectOptions state={AccountsDataState} stateType="Account" />
+        </TitleAndDataRow>
+        <TitleAndDataRow title="Date">
+          <SelectDate />
+        </TitleAndDataRow>
+        <SaveTransaction />
+      </TransactionUiContext>
     </>
   );
 };
+
+const SelectOptions: React.FC<{state: IBudgetDataState["categories"] | IAccountsDataState, stateType: "Category" | "Account"}> = ({state, stateType}) => {
+  const {transactionUiDispatch} = useContext(TransactionUiStore);
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    transactionUiDispatch(changeSelectedOption(stateType, e.target.value));
+  }
+  return (
+    <>
+      <select name="selectCategory" id="selectCategory" className="bg-gray-500"
+        onChange={(e)=>{
+          handleChange(e)
+        }}
+      >
+        <option value="">Select {stateType}</option>
+        {
+          state.map((el)=>{
+            return <option key={el.id} value={el.id}>{el.title}</option>
+          })
+        }
+      </select>
+    </>
+  );
+}
+
+const SelectDate = () => {
+  const todayDate = new Date(Date.now()).toISOString().split("T")[0];
+  const {TransactionUiState, transactionUiDispatch} = useContext(TransactionUiStore);
+  const {transactionSelectedDate} = TransactionUiState;
+  useEffect(()=>{
+    transactionUiDispatch(changeSelectedDate(todayDate));
+  },[todayDate, transactionUiDispatch])
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    transactionUiDispatch(changeSelectedDate(e.target.value));
+  }
+
+  return (
+    <>
+      <input type="date" className="bg-gray-500" value={transactionSelectedDate}
+      onChange={(e)=> {handleChange(e)}} />
+    </>
+  );
+}
 
 const InsertAmount = () => {
   return (
@@ -41,17 +100,19 @@ const InsertAmount = () => {
 };
 
 const SwitchBtn = () => {
-  const [plus, setPlus] = useState(false);
-  let rightOrLeft = plus ? "full" : "0";
-  let greenOrRed = plus ? "green" : "red";
-  let plusOrMinus = plus ? "+" : "-";
+  const { TransactionUiState, transactionUiDispatch } =
+    useContext(TransactionUiStore);
+  const { isPlus } = TransactionUiState;
+  let rightOrLeft = isPlus ? "full" : "0";
+  let greenOrRed = isPlus ? "green" : "red";
+  let plusOrMinus = isPlus ? "+" : "-";
 
   return (
     <>
       <div
         className={`m-1 h-8 w-14 rounded-sm bg-${greenOrRed}-500 cursor-pointer`}
         onClick={() => {
-          setPlus(!plus);
+          transactionUiDispatch(toggleIsPlus(!isPlus));
         }}>
         <div
           className={`h-6 w-6 rounded-sm m-1 text-gray-900 bg-white flex items-center justify-center transition duration-200 ease-in transform translate-x-${rightOrLeft}`}>
@@ -63,12 +124,12 @@ const SwitchBtn = () => {
 };
 
 const NumberInput = () => {
-  const { TransactionState, transactionDispatch } =
-    useContext(TransactionStore);
-  const { showNumPad, inputValue } = TransactionState;
+  const { TransactionUiState, transactionUiDispatch } =
+    useContext(TransactionUiStore);
+  const { showNumPad, inputValue } = TransactionUiState;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    transactionDispatch(setInputValue(e.target.value));
+    transactionUiDispatch(setInputValue(e.target.value));
   };
 
   return (
@@ -84,7 +145,7 @@ const NumberInput = () => {
         value={inputValue}
         readOnly={isMobile}
         onFocus={() => {
-          transactionDispatch(setShowNumPad(true));
+          transactionUiDispatch(setShowNumPad(true));
         }}
       />
       {showNumPad && isMobile ? <NumPad /> : ""}
@@ -123,27 +184,60 @@ const NumPad = () => {
 };
 
 const NumPadBtn: React.FC<{ num: string }> = ({ num }) => {
-  const { TransactionState, transactionDispatch } =
-    useContext(TransactionStore);
-  const { inputValue } = TransactionState;
+  const { TransactionUiState, transactionUiDispatch } =
+    useContext(TransactionUiStore);
+  const { inputValue } = TransactionUiState;
   return (
     <>
       <div
         onClick={() => {
           if (num === "Del") {
-            transactionDispatch(
+            transactionUiDispatch(
               setInputValue(inputValue.substring(0, inputValue.length - 1))
             );
           }
           if (num === "Done") {
-            transactionDispatch(setShowNumPad(false));
+            transactionUiDispatch(setShowNumPad(false));
           }
-          transactionDispatch(setInputValue(inputValue + num));
+          transactionUiDispatch(setInputValue(inputValue + num));
         }}>
         <GreenBtn title={num} />
       </div>
     </>
   );
 };
+
+const SaveTransaction = () => {
+  const history = useHistory();
+  const {transactionDataDispatch} = useContext(TransactionDataStore);
+  const {TransactionUiState} = useContext(TransactionUiStore);
+  const {inputValue, isPlus, transactionSelectedAccount, transactionSelectedCategory, transactionSelectedDate} = TransactionUiState;
+
+  const Transaction: ITransaction = {
+    id: `${Date.now()}`,
+    amount: +inputValue,
+    budgetCategoryId: transactionSelectedCategory,
+    accountId: transactionSelectedAccount,
+    isPlus,
+    time: new Date(transactionSelectedDate).valueOf(),
+  } 
+
+  const handleClick = () => {
+    if(!Transaction.amount || !Transaction.budgetCategoryId || !Transaction.accountId){return};
+    transactionDataDispatch(addTransaction(Transaction));
+    history.push("/");
+  }
+
+  return (
+    <div
+      className="m-auto mb-0"
+      onClick={()=>{
+        handleClick();
+      }}
+    >
+      <GreenBtn title="Save Transaction" />
+    </div>
+  );
+}
 
 export default Transaction;

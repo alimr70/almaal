@@ -1,11 +1,12 @@
 const TitleAndDataRow: React.FC<{ title: string; data?: string }> = ({
   title,
   data,
+  children
 }) => {
   return (
     <div className="title-and-data-row">
       <TitleCell title={title} />
-      {data? <DataCell data={data} /> : ""}
+      {data? <DataCell data={data} /> : children}
     </div>
   );
 };

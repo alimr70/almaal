@@ -16,5 +16,13 @@
 - ✅ Make Transaction switch btn
 - ✅ Make Transaction input state that doesn't accept letter and prevent focus from popping up keyboard on mobile devices
 - ✅ Build keyboard for mobile devices
-- ✅ Create Transaction Context
-- ❌ Create App context
+- ✅ Create Transaction UI Context
+- ❌ Create Accounts UI Context
+- ❌ Create Budget UI Context
+- ❌ Create Home UI Context
+- ✅ Create Transaction Data context
+- ✅ Create Accounts Data Context
+- ✅ Create Budget Data Context
+- ❌ Create Home Data Context
+- ✅ Update every context to have a Type like you did with AccountsDataContext
+- ✅ Make adding Transaction functionality

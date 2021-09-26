@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import TitleAndDataRow from "../../TitleAndDataRow";
+import TransactionHistory from "./TransactionHistory";
 
 const Home = () => {
   return (
@@ -20,7 +21,9 @@ const Home = () => {
       <Link to="/budget">
         <TitleAndDataRow title="Budget" data="5,000" />
       </Link>
+      <TransactionHistory />
     </>
   );
 };
+
 export default Home;
