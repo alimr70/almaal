@@ -9,9 +9,9 @@ const Home = () => {
         <p className="text-blue-200">Available Balance To Spare</p>
         <h1 className="text-4xl text-center">300</h1>
       </div>
-      <Link to="/zakat">
+      {/* <Link to="/zakat">
         <TitleAndDataRow title="Zakat" data="2,500" />
-      </Link>
+      </Link> */}
       <Link to="/sadaqah">
         <TitleAndDataRow title="Allah's Right" data="50" />
       </Link>

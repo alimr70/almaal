@@ -35,7 +35,7 @@ const TransactionHistoryDataCard: React.FC<{transaction: ITransaction}> = ({tran
   const accountTitle = AccountsDataState.find((acc) => acc.id === accountId)?.title;
   const budgetCategoryTitle = BudgetDataState.categories.find((category) => category.id === budgetCategoryId)?.title;
   const redOrGreen = isPlus? "green" : "red";
-  const minusOrPlus = isPlus? "+" : "-";
+  const minusOrPlus = isPlus? "+" : "";
   return(
     <>
       <div className="m-1 p-3 text-xl bg-gray-700">

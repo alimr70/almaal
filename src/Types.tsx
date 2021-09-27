@@ -8,6 +8,9 @@ export interface IActions {
     transactionSelectedAccount?: string;
     transactionSelectedDate?: string;
     transaction?: ITransaction;
+    handleAmount?: number;
+    accountId?: string;
+    categoryId?: string;
   };
 }
 
@@ -35,8 +38,8 @@ export interface IBudgetCategory{
   id: string;
   group: string;
   title: string;
-  initBudget: number;
-  availableToSpend: number;
+  initBudget?: number;
+  availableToSpend?: number;
 }
 
 export type IBudgetDataState = {

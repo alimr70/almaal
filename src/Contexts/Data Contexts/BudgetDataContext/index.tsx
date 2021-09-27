@@ -12,15 +12,21 @@ const initialState: IBudgetDataState = {
       id: "cat-income",
       group:"builtIn",
       title: "Income",
-      initBudget: 0,
-      availableToSpend: 0,
     },
     {
       id: "cat-sadaqah",
       group:"builtIn",
       title: "Sadaqah",
-      initBudget: 0,
-      availableToSpend: 0,
+    },
+    // {
+    //   id: "cat-zakah",
+    //   group:"builtIn",
+    //   title: "Zakah",
+    // },
+    {
+      id: "cat-investment",
+      group:"builtIn",
+      title: "Investment",
     },
     {
       id: "cat-489432",
