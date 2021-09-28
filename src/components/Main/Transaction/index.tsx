@@ -21,6 +21,7 @@ import { addTransaction } from "../../../Contexts/Data Contexts/TransactionDataC
 import { useHistory } from "react-router";
 import { addOrSubtractAccountAmount } from "../../../Contexts/Data Contexts/AccountsDataContext/AccountsDataActions";
 import { addOrSubtractCategoryAvailableToSpend } from "../../../Contexts/Data Contexts/BudgetDataContext/BudgetDataActions";
+import { HomeDataStore } from "../../../Contexts/Data Contexts/HomeDataContext";
 
 const Transaction = () => {
   const {AccountsDataState} = useContext(AccountsDataStore);
@@ -211,13 +212,14 @@ const NumPadBtn: React.FC<{ num: string }> = ({ num }) => {
 
 const SaveTransaction = () => {
   const history = useHistory();
+  const {HomeDataState} = useContext(HomeDataStore);
   const {transactionDataDispatch} = useContext(TransactionDataStore);
   const {accountsDataDispatch} = useContext(AccountsDataStore);
   const {TransactionUiState} = useContext(TransactionUiStore);
   const {BudgetDataState, budgetDataDispatch} = useContext(BudgetDataStore);
   const {inputValue, isPlus, transactionSelectedAccount, transactionSelectedCategory, transactionSelectedDate} = TransactionUiState;
 
-  const transformedToNumber = isPlus? +inputValue : +`-${inputValue}`;
+  let transformedToNumber = isPlus? +inputValue : +`-${inputValue}`;
 
   const Transaction: ITransaction = {
     id: `${Date.now()}`,
@@ -231,10 +233,9 @@ const SaveTransaction = () => {
   const handleClick = () => {
     const {categories} = BudgetDataState;
     const targetCategory = categories.find(cat => cat.id === Transaction.budgetCategoryId);
-
     if(!Transaction.amount || !Transaction.budgetCategoryId || !Transaction.accountId){return};
     transactionDataDispatch(addTransaction(Transaction));
-    
+
     if(targetCategory?.group !== "builtIn"){
       if(isPlus){
         accountsDataDispatch(addOrSubtractAccountAmount(transactionSelectedAccount, -transformedToNumber));
@@ -243,6 +244,11 @@ const SaveTransaction = () => {
         budgetDataDispatch(addOrSubtractCategoryAvailableToSpend(Transaction.budgetCategoryId, transformedToNumber));
       }
     } else {
+      if(targetCategory?.id === "cat-income"){
+        const SadaqahAmount = transformedToNumber * HomeDataState.sadaqah.PercentageToBeCut / 100;
+        console.log(SadaqahAmount)
+        transformedToNumber = transformedToNumber - SadaqahAmount;accountsDataDispatch(addOrSubtractAccountAmount("acc-sadaqah", SadaqahAmount));
+      }
       accountsDataDispatch(addOrSubtractAccountAmount(transactionSelectedAccount, transformedToNumber));
     }
 

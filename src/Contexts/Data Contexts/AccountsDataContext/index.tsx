@@ -6,19 +6,19 @@ const initialState: IAccountsDataState = [
   {
     id: "acc-541d651",
     title: "Monthly Paycheck",
-    amount: 4500,
+    amount: 0,
     type: "cash",
   },
   {
     id: "acc-d16f5sdf6",
     title: "Savings",
-    amount: 1000,
+    amount: 0,
     type: "savings",
   },
   {
-    id: "acc-516d5f1",
+    id: "acc-sadaqah",
     title: "Sadaqah",
-    amount: 500,
+    amount: 0,
     type: "debt",
   },
   {

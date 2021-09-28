@@ -55,3 +55,20 @@ export interface IAccount{
 };
 
 export type IAccountsDataState = IAccount[];
+
+export interface ISavingProfile {
+  id: string;
+  title: string;
+  targetAmount: number;
+};
+
+export type IHomeDataState = {
+  sadaqah: {
+      isOn: boolean;
+      PercentageToBeCut: number;
+  };
+  zakah: {
+      isOn: boolean;
+  };
+  savings: ISavingProfile[];
+}

@@ -28,4 +28,4 @@
 - ✅ Make adding Transaction functionality
 - ✅ Apply effect on Accounts when adding a transaction
 - ✅ Apply effect on budget when adding a transaction
-- ❌ Apply effect on Sadaqah when adding an amount is added
+- ✅ Apply effect on Sadaqah when adding an amount is added
